@@ -1,0 +1,141 @@
+{% load blog_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %} {% endblock %}</title>
+  <style>
+    body { 
+        margin:0;
+        padding:0;
+        font-family:helvetica, sans-serif; 
+    }
+
+    a { 
+        color:#00abff;
+        text-decoration:none; 
+    }
+
+    h1 { 
+        font-weight:normal;
+        border-bottom:1px solid #bbb;
+        padding:0 0 10px 0;
+    }
+
+    h2 {
+        font-weight:normal;
+        margin:30px 0 0;
+    }
+
+    #content { 
+        float:left;
+        width:60%;
+        padding:0 0 0 30px; 
+    }
+
+    #sidebar { 
+        color: white;
+        float:right;
+        width:20%;
+        padding:10px;
+        background:#616161; 
+        height:97vh;
+        box-shadow: 10px 10px 80px 0px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 10px 10px 80px 0px rgba(0,0,0,0.75);
+        -moz-box-shadow: 10px 10px 80px 0px rgba(0,0,0,0.75);
+    }
+
+    #sidebar a {
+        color: rgb(141, 189, 221);
+    }
+
+    p.date { 
+        color:#ccc;
+        font-family: georgia, serif;
+        font-size: 12px;
+        font-style: italic; 
+    }
+
+    /* pagination */
+    .pagination { 
+        margin:40px 0; 
+        font-weight:bold;
+    }
+
+    /* forms */
+    label { 
+        float:left;
+        clear:both;
+        color:#333;
+        margin-bottom:4px; 
+    }
+    input, textarea { 
+        clear:both;
+        float:left;
+        margin:0 0 10px;
+        background:#ededed;
+        border:0;
+        padding:6px 10px;
+        font-size:12px;
+    }
+    input[type=submit] {
+        font-weight:bold;
+        background:#00abff;
+        color:#fff;
+        padding:10px 20px;
+        font-size:14px;
+        text-transform:uppercase; 
+    }
+
+    .errorlist { 
+        color:#cc0033;
+        float:left;
+        clear:both;
+        padding-left:10px; 
+    }
+    /* comments */
+    .comment {
+        padding:10px;
+    }
+    .comment:nth-child(even) {
+        background:#efefef;
+    }
+    .comment .info {
+        font-weight:bold;
+        font-size:12px;
+        color:#666;
+    }
+
+    .tags {
+        font-size: 15px;
+    }
+
+    #post:hover {
+        color: rgb(52, 78, 107);
+        transition-duration: 0.4s;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <div id="sidebar">
+    <h2>Meu blog</h2>
+    <p>Esse é o meu blog</p>
+    <p>Eu fiz {% total_posts %} publicações até agora.</p>
+    <h3>Últimas Publicações</h3>
+    {% show_latest_posts 3 %}
+    <h3>Publicações mais comentadas</h3>
+    {% get_most_commented_posts as most_commented_posts %}
+    {% for post in most_commented_posts %}
+      <li>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+      </li>
+      {% empty %}
+      <p>Nenhuma publicação foi feita ainda.</p>
+    {% endfor %}
+  </div>
+</body>
+</html>
